@@ -3,74 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 12:42:24 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/23 22:06:32 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:12:16 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-void	draw_rectangle(t_my_map *vars,int y,int x,int c) {
-	int x_end = x * SIZE;
-	int y_end = y * SIZE;
+void draw_map2d(t_my_map *src,int start_h,int start_w,int end_h,int end_w){
 
-	while (y < y_end) {
-		int i = x;
-		while (i < x_end) {
-			mlx_pixel_put(vars->mlx, vars->win, i, y, c);
-			i++;
-		}
-		y++;
-	}
+    int x;
+    while(start_h < end_h)
+    {
+        x = start_w;
+        while(x < end_w)
+        {
+            mlx_pixel_put(src->mlx,src->win,start_h,x,255);
+            x++;
+        }
+        start_h++;
+    }
 }
 
 void raycasting(t_my_map *src)
 {
+    int i = 0;
+    int j;
     int map[ROWS][COLS] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    };
     src->mlx = mlx_init();
     src->windows_w = ROWS*SIZE;
     src->windows_h = COLS*SIZE;
     src->win = mlx_new_window(src->mlx,src->windows_h,src->windows_w,"Cub3D");
-
-    void my_mlx_rectangle(void *mlx_ptr, void *win_ptr, int x1, int y1, int x2, int y2, int color) {
-    int x, y;
-
-    for (x = x1; x <= x2; x++) {
-        for (y = y1; y <= y2; y++) {
-            mlx_pixel_put(mlx_ptr, win_ptr, x, y, color);
-        }
-    }
-}
-   
-    int x, y;
-
-    for (y = 0; y < ROWS; y++) {
-        for (x = 0; x < COLS; x++) {
-            int x1 = x * SIZE;
-            int y1 = y * SIZE;
-            int x2 = x1 + SIZE;
-            int y2 = y1 + SIZE; 
-            if (map[y][x] == 1) {
-                my_mlx_rectangle(src->mlx,src->win,x1,y1,x2,y2,255);// White for 1
-            }
-        }
     
+    while(i < ROWS)
+    {
+        j = 0;
+        while(j < COLS)
+        {
+            src->height = j * SIZE;
+            src->weight = i * SIZE;
+            if(map[i][j] == 1)
+                draw_map2d(src,src->height,src->weight,(src->height+SIZE),(src->weight+SIZE));
+            j++;
+        }
+        i++;
     }
     mlx_loop(src->mlx);
 }
