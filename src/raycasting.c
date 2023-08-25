@@ -6,7 +6,7 @@
 /*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 12:42:24 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/24 19:24:44 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:48:22 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,18 @@ void draw_map2d(t_my_map *src,int map[ROWS][COLS])
         }
         i++;
     }
+    line(src,src->player_x*0.5,src->player_y*0.5,(src->player_x+cos(src->rAngle)*40)*0.5,(src->player_y+sin(src->rAngle)*40)*0.5);
 }
 /* Delta Time to make the Game STABLE for ALL FPS*/
 
-void deltatime_forgame(t_my_map *src)
+float deltatime_forgame(t_my_map *src)
 {
     float deltatime;
     
     src->tofl_frame = 0;
     deltatime = current_time() - src->tofl_frame;
     src->tofl_frame = current_time();
+    return deltatime;
 }
 
 
@@ -86,13 +88,12 @@ void raycasting(t_my_map *src)
     src->up_down = 0;
     src->left_right = 0;
     src->rAngle = PI / 2;
-    src->wSpeed = 100;
-    src->tSpeed = 45 * (PI / 180);
+    src->wSpeed = 20;
+    src->tSpeed = 10 * (PI / 180);
     src->win = mlx_new_window(src->mlx,src->windows_w,src->windows_h,"Cub3D");
     
     draw_map2d(src,map);
-    deltatime_forgame(src);
-    line(src,src->player_x*0.5,src->player_y*0.5,(src->player_x+cos(src->rAngle)*40)*0.5,(src->player_y+sin(src->rAngle)*40)*0.5);
-    mlx_hook(src->win,KEYPRESS,(1L<<0),&player_hooks,src);
+    mlx_hook(src->win,KEYPRESS,(1L<<0),&player_press,src);
+    mlx_hook(src->win,KEYUP,(1L<<1),&player_up,src);
     mlx_loop(src->mlx);
 }

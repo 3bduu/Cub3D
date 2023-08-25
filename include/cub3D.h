@@ -23,6 +23,15 @@
 # define WEST_TEXTURE "WE"
 #define TEXTURE_EXTENSION ".xpm"
 //Raycasting PART
+/*  KEYCODE  */
+#define KEYPRESS 2
+#define KEYUP 3
+#define W 119
+#define A 97
+#define S 115
+#define D 100
+#define ESC 65307
+
 #define SIZE 50
 #define ROWS 13
 #define COLS 20
@@ -31,7 +40,7 @@
 #define PI 3.14159265359
 #define PI2 6.28318530718
 #define FOV (60 * (PI / 180)) //Field of View
-#define KEYPRESS 2
+
 typedef struct s_get_map
 {
     char		*north_texture;
@@ -76,6 +85,9 @@ char **get_content(int fd, t_my_map *info_map);
 /*  Raycasting   */
 void line(t_my_map *src, int start_x, int start_y, int end_x, int end_y);
 void    raycasting(t_my_map *src);
+float deltatime_forgame(t_my_map *src);
 double  current_time();
-void    player(t_my_map *src);
+void    draw_map2d(t_my_map *src,int map[ROWS][COLS]);
+int     player_press(int keycode,t_my_map *src);
+int     player_up(int keycode,t_my_map *src);
 #endif
