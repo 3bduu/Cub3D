@@ -1,7 +1,7 @@
 # Makefile
 
 NAME = cub3D
-SRCS = ./src/cub3D.c ./src/init.c ./src/raycasting.c ./src/ft_putstr.c  ./src/utils.c  ./get_next/get_next_line.c ./get_next/get_next_line_utils.c
+SRCS = ./src/cub3D.c ./src/player.c ./src/rayutils.c ./src/init.c ./src/raycasting.c ./src/ft_putstr.c  ./src/utils.c  ./get_next/get_next_line.c ./get_next/get_next_line_utils.c
 
 LIBS =  -L libft -lft 
 OBJ = $(SRCS:.c=.o)

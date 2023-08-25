@@ -8,6 +8,8 @@
 # include <stdio.h>
 # include "../minilibx-linux/mlx.h"
 #include "../libft/libft.h"
+#include <sys/time.h>
+#include <math.h>
 //# include "./get_next/get_next_line.h"
 
 
@@ -21,9 +23,15 @@
 # define WEST_TEXTURE "WE"
 #define TEXTURE_EXTENSION ".xpm"
 //Raycasting PART
-#define SIZE 50;
+#define SIZE 50
 #define ROWS 13
 #define COLS 20
+#define FPS 30
+#define TFO_FRAME (1000 / FPS) //Time for ONE Frame
+#define PI 3.14159265359
+#define PI2 6.28318530718
+#define FOV (60 * (PI / 180)) //Field of View
+#define KEYPRESS 2
 typedef struct s_get_map
 {
     char		*north_texture;
@@ -39,6 +47,18 @@ typedef struct s_get_map
     void         *win;
     int     windows_w;
     int     windows_h;
+    int     height;
+    int     weight;
+    float     player_x;
+    float     player_y;
+    int     tofl_frame; //time of last frame
+    int     rays;
+    float   up_down;
+    float   left_right;
+    float   rAngle; //rotation angle
+    float   wSpeed; //walk speed
+    float   tSpeed; // turn speed
+
 }   	t_my_map;
 
 ///===> this for parsing 
@@ -54,5 +74,8 @@ void  ft_putstr(char *str,int fd);
 void error_message(char *str,int fd);
 char **get_content(int fd, t_my_map *info_map);
 /*  Raycasting   */
-void raycasting(t_my_map *src);
+void line(t_my_map *src, int start_x, int start_y, int end_x, int end_y);
+void    raycasting(t_my_map *src);
+double  current_time();
+void    player(t_my_map *src);
 #endif
