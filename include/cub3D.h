@@ -52,8 +52,13 @@ typedef struct s_get_map
     int nb_raw;
     int nb_line;
     //Raycasting PART
+    void         *img;
     void         *mlx;
     void         *win;
+    char	     *addr;
+    int		bits_per_pixel;
+	int		line_length;
+	int		endian;
     int     windows_w;
     int     windows_h;
     int     height;

@@ -6,7 +6,7 @@
 /*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 12:42:24 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/25 19:48:22 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:13:43 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void draw_map2d(t_my_map *src,int map[ROWS][COLS])
         }
         i++;
     }
-    line(src,src->player_x*0.5,src->player_y*0.5,(src->player_x+cos(src->rAngle)*40)*0.5,(src->player_y+sin(src->rAngle)*40)*0.5);
+    line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*SIZE),(src->player_y+sin(src->rAngle)*SIZE));
+    
 }
 /* Delta Time to make the Game STABLE for ALL FPS*/
 
@@ -83,13 +84,13 @@ void raycasting(t_my_map *src)
     src->windows_w = COLS*SIZE;
     src->windows_h = ROWS*SIZE;
     src->rays = src->windows_w;
-    src->player_x = src->windows_w ;
-    src->player_y = src->windows_h;
+    src->player_x = src->windows_w / 2;
+    src->player_y = src->windows_h / 2;
     src->up_down = 0;
     src->left_right = 0;
     src->rAngle = PI / 2;
-    src->wSpeed = 20;
-    src->tSpeed = 10 * (PI / 180);
+    src->wSpeed = 10;
+    src->tSpeed = 2 * (PI / 180);
     src->win = mlx_new_window(src->mlx,src->windows_w,src->windows_h,"Cub3D");
     
     draw_map2d(src,map);

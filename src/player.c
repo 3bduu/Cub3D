@@ -6,7 +6,7 @@
 /*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:29:07 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/25 19:49:13 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:44:13 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	player_move(t_my_map *player)
 
     float a = player->player_x + cos(player->rAngle)*nextMove;
     float b = player->player_y + sin(player->rAngle)*nextMove;
-
     player->player_x = a;
     player->player_y = b;
+    printf("%d\n",map[(int)floor(b/SIZE)][(int)floor(a/SIZE)]);
 	mlx_clear_window(player->mlx, player->win);
     draw_map2d(player,map);
 }
