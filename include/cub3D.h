@@ -8,7 +8,7 @@
 # include <stdio.h>
 #include "../libft/libft.h"
 
-#include <mlx.h>
+#include "../minilibx-linux/mlx.h"
 #include <math.h>
 //# include "./get_next/get_next_line.h"
 
@@ -23,10 +23,16 @@
 #define TEXTURE_EXTENSION ".xpm"
 #define F_COLOR "F"
 #define C_COLOR "C"
-#define SIZE 50
+#define GREEN 0x0aad39
+#define RED 0xc70c1c
+
+#define SIZE 30
 #define PI 3.14159265359
 #define FOV (PI / 3)
-#define HALF_FOV (FOV / 2) 
+#define HALF_FOV (FOV / 2)
+#define CASTED_RAYS 120 
+#define STEP_ANGLE  (FOV/CASTED_RAYS)
+
 #define KEYPRESS 2
 #define KEYUP 3
 #define W 119
@@ -34,14 +40,13 @@
 #define S 115
 #define D 100
 #define ESC 65307
-#define ROWS 13
-#define COLS 20
 typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_color;
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -49,6 +54,7 @@ typedef struct	s_data {
 	int		line_length;
 	int		endian;
 }				t_data;
+
 typedef struct s_get_map
 {
     char		*north_texture;
@@ -59,8 +65,8 @@ typedef struct s_get_map
     char    pos_player;
     int     row_player;
     int     col_player;
-    char **map;
-    char **map_2;
+    char        **map;
+    char        **map_2;
     int nb_raw;
     int nb_line;
     int nb_map2;
@@ -70,19 +76,18 @@ typedef struct s_get_map
     //     Raycasting
     void         *mlx;
     void         *win;
+    int             i;
     int     windows_w;
     int     windows_h;
-    int     height;
-    int     weight;
     float     player_x;
     float     player_y;
-    int     tofl_frame; //time of last frame
-    int     rays;
     float   up_down;
     float   left_right;
     float   rAngle; //rotation angle
     float   wSpeed; //walk speed
     float   tSpeed; // turn speed
+    float   start_angle;
+    int     rayD;   //it's steps to draw one ray
     t_data img;
 }   	t_my_map;
 
@@ -118,8 +123,10 @@ char **get_content(int fd, t_my_map *info_map);
 /*  Raycasting   */
 void line(t_my_map *src, int start_x, int start_y, int end_x, int end_y);
 void    raycasting(t_my_map *src);
-void    draw_map2d(t_my_map *src,int map[ROWS][COLS]);
+void minimap(t_my_map *src);
 int     player_press(int keycode,t_my_map *src);
 int     player_up(int keycode,t_my_map *src);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void    draw_square(t_my_map *src,int start_h,int start_w,int end_h,int end_w,int color);
+void    draw_circle(t_my_map *src,int posX,int posY,int ray);
 #endif

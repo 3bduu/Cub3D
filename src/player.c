@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:29:07 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/29 13:09:31 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:17:40 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,37 @@
 
 void	player_move(t_my_map *player)
 {
-    int map[ROWS][COLS] = {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    };
-    player->rAngle += player->left_right * player->tSpeed;
+    float nextMove;
+    float a;
+    float b;
     
-    float nextMove = player->up_down * player->wSpeed;
+    player->rAngle += player->left_right * player->tSpeed;
+    nextMove = player->up_down * player->wSpeed;
 
-    float a = player->player_x + cos(player->rAngle)*nextMove;
-    float b = player->player_y + sin(player->rAngle)*nextMove;
-    if(!map[(int)floor(b/SIZE)][(int)floor(a/SIZE)])
+    a = player->player_x + cos(player->rAngle)*nextMove;
+    b = player->player_y + sin(player->rAngle)*nextMove;
+    if(player->map_2[(int)floor(b/SIZE)][(int)floor(a/SIZE)]!='1')
     {
         player->player_x = a;
         player->player_y = b;
     }
-    printf("%d\n",map[(int)floor(b/SIZE)][(int)floor(a/SIZE)]);
-    mlx_destroy_image (player->mlx, &player->img.img );
+    
 	mlx_clear_window(player->mlx, player->win);
-    draw_map2d(player,map);
+    minimap(player);
 }
 
 int player_press(int keycode,t_my_map *src)
 {
     if(keycode == W)
-        src->up_down -= 1;
-    else if(keycode == S)
         src->up_down += 1;
+    else if(keycode == S)
+        src->up_down -= 1;
     else if(keycode == A)
         src->left_right -= 1;
     else if(keycode == D)
         src->left_right += 1;
-    player_move(src);
+    if(src->left_right || src->up_down)
+        player_move(src);
 }
 
 int player_up(int keycode,t_my_map *src)
@@ -69,5 +57,4 @@ int player_up(int keycode,t_my_map *src)
         src->left_right = 0;
     else if(keycode == D)
         src->left_right = 0;
-    player_move(src);
 }
