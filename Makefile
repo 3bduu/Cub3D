@@ -1,7 +1,9 @@
 # Makefile
 
 NAME = cub3D
-SRCS = ./src/cub3D.c ./src/player.c ./src/rayutils.c ./src/init.c ./src/raycasting.c ./src/ft_putstr.c  ./src/utils.c  ./get_next/get_next_line.c ./get_next/get_next_line_utils.c
+SRCS = ./src/cub3D.c ./src/rayutils.c ./src/player.c ./src/init.c ./src/raycasting.c ./src/ft_putstr.c \
+       ./src/utils.c ./get_next/get_next_line.c ./get_next/get_next_line_utils.c \
+       ./src/map_function.c ./src/map_check.c
 
 LIBS =  -L libft -lft 
 OBJ = $(SRCS:.c=.o)
@@ -12,10 +14,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -Lmlx_linux minilibx-linux/libmlx_Linux.a -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	@$(CC) $(OBJ) $(LIBS)  -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 .c.o:
-	@$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	@$(CC)  -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 clean:
 	@make -C libft clean

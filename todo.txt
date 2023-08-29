@@ -1,0 +1,2 @@
+len of egv must <=3
+and nb of rgb must equal 3

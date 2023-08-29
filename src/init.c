@@ -35,7 +35,6 @@ void let_dup(t_my_map *info_mapm, char *file_name) {
     }
     
     info_mapm->map[i] = NULL;
- 
-    
+
 }
 
