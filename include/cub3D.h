@@ -7,8 +7,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 #include "../libft/libft.h"
-
-#include "../minilibx-linux/mlx.h"
+#include<mlx.h>
+// #include "../minilibx-linux/mlx.h"
 #include <math.h>
 //# include "./get_next/get_next_line.h"
 
@@ -25,8 +25,10 @@
 #define C_COLOR "C"
 #define GREEN 0x0aad39
 #define RED 0xc70c1c
+#define YELLOW 0xdbd112
+#define ORANGE 0Xfa8202
 
-#define SIZE 30
+#define SIZE 20
 #define PI 3.14159265359
 #define FOV (PI / 3)
 #define HALF_FOV (FOV / 2)
@@ -121,7 +123,7 @@ void  ft_putstr(char *str,int fd);
 void error_message(char *str,int fd);
 char **get_content(int fd, t_my_map *info_map);
 /*  Raycasting   */
-void line(t_my_map *src, int start_x, int start_y, int end_x, int end_y);
+void line(t_my_map *src, int start_x, int start_y, int end_x, int end_y,int color);
 void    raycasting(t_my_map *src);
 void minimap(t_my_map *src);
 int     player_press(int keycode,t_my_map *src);

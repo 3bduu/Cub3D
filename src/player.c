@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:29:07 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/29 19:17:40 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:23:31 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	player_move(t_my_map *player)
     float nextMove;
     float a;
     float b;
-    
+    mlx_destroy_image(player->mlx,player->img.img);
+    player->img.img = mlx_new_image(player->mlx, player->windows_w, player->windows_h);
     player->rAngle += player->left_right * player->tSpeed;
     nextMove = player->up_down * player->wSpeed;
 
@@ -28,8 +29,7 @@ void	player_move(t_my_map *player)
         player->player_x = a;
         player->player_y = b;
     }
-    
-	mlx_clear_window(player->mlx, player->win);
+    mlx_clear_window(player->mlx, player->win);
     minimap(player);
 }
 
@@ -45,6 +45,7 @@ int player_press(int keycode,t_my_map *src)
         src->left_right += 1;
     if(src->left_right || src->up_down)
         player_move(src);
+    return 0;
 }
 
 int player_up(int keycode,t_my_map *src)
@@ -57,4 +58,5 @@ int player_up(int keycode,t_my_map *src)
         src->left_right = 0;
     else if(keycode == D)
         src->left_right = 0;
+    return 0;
 }
