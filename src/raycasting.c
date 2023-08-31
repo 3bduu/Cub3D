@@ -6,46 +6,68 @@
 /*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 12:42:24 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/30 12:37:09 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:48:49 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
+float corrValue(float rayAngle)
+{
+    rayAngle = remainder(rayAngle,TWOPI);
+    if(rayAngle < 0)
+        rayAngle = TWOPI + rayAngle;
+    return (rayAngle);
+}
+/* UP DOWN */
+int rayfacingUD(float rayAngle)
+{
+    if(rayAngle > 0 && rayAngle < PI)
+        return 1
+    return 0;
+}
+/* Right Left */
+int rayfacingRL(float rayAngle)
+{
+    if(rayAngle < 0.5 *PI || rayAngle > 1.5 PI)
+        return 1
+    return 0;
+}
+
+void one_ray(t_my_map *src,float rayAngle,int index)
+{
+    int isfacingDW;
+    int isfacingUP;
+    int isfacingRight;
+    int isfacingLeft;
+    float x
+    int foundHhit = 0; //found horz wall hit
+    float horzhitX;
+    float horzhitY;
+    int     horzwallcontent;
+    
+    rayAngle = corrValue(rayAngle);
+    isfacingDW = rayfacingUD(rayAngle);
+    isfacingUP = !isfacingDW;
+    isfacingRight = rayfacingRL(rayAngle);
+    isfacingLeft = !isfacingRight;
+
+    hor = floor(src->player_y / SIZE) * SIZE;
+    if()
+    
+}
+
 void ray_cast(t_my_map *src)
 {
+    float rayAngle;
     int i;
-    int j;
-    float tar_x; //target_x
-    float tar_y; //target_y
-    int col;
-    int row;
     
+    rayAngle = src->rAngle - HALF_FOV;
     i = 0;
-    src->start_angle = src->rAngle - HALF_FOV; // define left most angle of FOV
-    /*Draw rays*/
-    while(i < CASTED_RAYS)
+    while(i < src->casted_rays)
     {
-        /*Draw one ray*/
-        j = 0;
-        while(j < src->rayD)
-        {
-            /* Get ray target cordinate */
-            tar_x =  src->player_x + cos(src->start_angle)*j;
-            tar_y =  src->player_y + sin(src->start_angle)*j;
-            /* Get the index on the original map */
-            col = (int)tar_x/SIZE;
-            row = (int)tar_y/SIZE;
-            if(src->map_2[row][col] == '1')
-            {
-                draw_square(src,col*SIZE,row*SIZE,col*SIZE+SIZE-1,row*SIZE+SIZE-1,ORANGE);
-                line(src,src->player_x,src->player_y,tar_x,tar_y,YELLOW); /* Draw casted Ray  */
-                break;
-            }
-            j++;
-        }
-        i++;
-       src->start_angle += STEP_ANGLE;  //increment angle by a single step
+        one_ray(src,rayAngle,i);
+        rayAngle += src->step_angle;
     }
 }
 
@@ -70,8 +92,7 @@ void minimap(t_my_map *src)
         i++;
     }
     draw_circle(src,src->player_x,src->player_y,4);
-    // line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*20),(src->player_y+sin(src->rAngle)*20));
-    ray_cast(src);
+    line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*SIZE),(src->player_y+sin(src->rAngle)*SIZE),YELLOW);
     mlx_put_image_to_window(src->mlx, src->win, src->img.img, 0, 0);
 }
 
@@ -82,15 +103,17 @@ int init_value(t_my_map *src)
 	if (!src->mlx)
 		return (1);
 	src->windows_w = ft_strlen(src->map_2[0]) * SIZE;
-	while (src->map_2[src->i])
+	while (src->map_2[src->i])= src->rAngle - HALF_FOV
 		src->i++;
 	src->windows_h = src->i * SIZE;
 	src->win = mlx_new_window(src->mlx, src->windows_w,
-			src->windows_h, "so_long");
+			src->windows_h, "Cub3d");
 	if (!src->win)
 		return (1);
     src->player_x = (float) src->col_player * SIZE;
     src->player_y = (float) src->row_player * SIZE;
+    src->casted_rays = src->windows_w;
+    src->step_angle = FOV / src->casted_rays;
     src->up_down = 0;
     src->left_right = 0;
     src->rayD = src->windows_w;
@@ -99,7 +122,7 @@ int init_value(t_my_map *src)
     src->tSpeed = 2 * (PI / 180);
     return (0);   
 }
-
+= src->rAngle - HALF_FOV
 void raycasting(t_my_map *src)
 {
     init_value(src);
@@ -109,4 +132,4 @@ void raycasting(t_my_map *src)
     mlx_hook(src->win,KEYPRESS,(1L<<0),&player_press,src);
     mlx_hook(src->win,KEYUP,(1L<<1),&player_up,src);
     mlx_loop(src->mlx);
-}
+}= src->rAngle - HALF_FOV

@@ -28,12 +28,11 @@
 #define YELLOW 0xdbd112
 #define ORANGE 0Xfa8202
 
-#define SIZE 20
+#define SIZE 50
 #define PI 3.14159265359
+#define TWOPI 6.28318530718
 #define FOV (PI / 3)
 #define HALF_FOV (FOV / 2)
-#define CASTED_RAYS 120 
-#define STEP_ANGLE  (FOV/CASTED_RAYS)
 
 #define KEYPRESS 2
 #define KEYUP 3
@@ -81,6 +80,8 @@ typedef struct s_get_map
     int             i;
     int     windows_w;
     int     windows_h;
+    int     casted_rays;
+    float   step_angle;
     float     player_x;
     float     player_y;
     float   up_down;
@@ -90,6 +91,17 @@ typedef struct s_get_map
     float   tSpeed; // turn speed
     float   start_angle;
     int     rayD;   //it's steps to draw one ray
+    // RAY //
+    float rayalpha;
+    float hitX; //wall HitX
+    float hitY; // Wall hitY
+    float dist; //distance
+    int hitvert; //wasHitVertical
+    int facingUP; //is ray facing up
+    int facinDW; //is ray facing down
+    int facinLeft; // is ray facing left
+    int facinRight; // is ray facing right
+    int hitContent; // us wall hit Content
     t_data img;
 }   	t_my_map;
 

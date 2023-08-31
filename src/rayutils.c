@@ -6,7 +6,7 @@
 /*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:36:46 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/30 12:31:12 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:15:17 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 void draw_square(t_my_map *src,int start_h,int start_w,int end_h,int end_w,int color){
 
     int x;
-    
+
     while(start_h < end_h)
     {
         x = start_w;
