@@ -7,8 +7,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 #include "../libft/libft.h"
-#include<mlx.h>
-// #include "../minilibx-linux/mlx.h"
+// #include<mlx.h>
+#include "../minilibx-linux/mlx.h"
 #include <math.h>
 //# include "./get_next/get_next_line.h"
 
@@ -56,6 +56,20 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 
+typedef struct s_ray
+{
+    float rayalpha;
+    float hitX; //wall HitX
+    float hitY; // Wall hitY
+    float dist; //distance
+    int hitvert; //wasHitVertical
+    int facingUP; //is ray facing up
+    int facinDW; //is ray facing down
+    int facinLeft; // is ray facing left
+    int facinRight; // is ray facing right
+    int hitContent; // us wall hit Content
+}           t_ray;
+
 typedef struct s_get_map
 {
     char		*north_texture;
@@ -92,16 +106,7 @@ typedef struct s_get_map
     float   start_angle;
     int     rayD;   //it's steps to draw one ray
     // RAY //
-    float rayalpha;
-    float hitX; //wall HitX
-    float hitY; // Wall hitY
-    float dist; //distance
-    int hitvert; //wasHitVertical
-    int facingUP; //is ray facing up
-    int facinDW; //is ray facing down
-    int facinLeft; // is ray facing left
-    int facinRight; // is ray facing right
-    int hitContent; // us wall hit Content
+    t_ray  *ray;
     t_data img;
 }   	t_my_map;
 
