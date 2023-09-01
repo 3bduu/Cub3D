@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 12:42:24 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/31 18:39:07 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/09/01 12:28:23 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-int mapHasWallAt(t_my_map *src,float x, float y) {
+int mapHasWallAt(t_my_map *src,float x, float y) 
+{
     if (x < 0 || x > src->windows_w || y < 0 || y > src->windows_h) {
         return 1;
     }
-    int mapGridIndexX = floor(x / SIZE);
-    int mapGridIndexY = floor(y / SIZE);
-    if(src->map_2[mapGridIndexY][mapGridIndexX]!='0')
+    int mapGridIndexX = (int)floor(x / SIZE);
+    int mapGridIndexY = (int)floor(y / SIZE);
+    if(src->map_2[mapGridIndexY][mapGridIndexX] == '1')
         return 1;
     return 0;
 }
@@ -45,7 +46,7 @@ int rayfacingRL(float rayAngle)
     return 0;
 }
 
-float distancebetweenPoint(int x1,int y1,int x2,int y2)
+float distancebetweenPoint(float x1,float y1,float x2,float y2)
 {
     return sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
 }
@@ -118,12 +119,12 @@ void one_ray(t_my_map *src,float rayAngle,int index)
     if(isfacingRight)
         xintercept += SIZE;
     //the y coord
-    yintercept = src->player_y + (xintercept - src->player_x) / tan(rayAngle);
+    yintercept = src->player_y + (xintercept - src->player_x) * tan(rayAngle);
     // calculate xstep and ystep
     xstep = SIZE;
     if(isfacingLeft)
         xstep*=-1;
-    ystep = SIZE / tan(rayAngle);
+    ystep = SIZE * tan(rayAngle);
     if(isfacingUP && ystep > 0)
         ystep *= -1;
     if(isfacingDW && ystep < 0)
@@ -197,6 +198,21 @@ void ray_cast(t_my_map *src)
     {
         one_ray(src,rayAngle,i);
         rayAngle += src->step_angle;
+        i++;
+    }
+}
+/* Drawing Rays */
+void render_rays(t_my_map *src)
+{
+    int i;
+
+    i = 0;
+    ray_cast(src);
+    while(i < src->casted_rays)
+    {
+        draw_square(src,src->ray[i].hitX,,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0xc8c8c8);
+        line(src,src->player_x,src->player_y,src->ray[i].hitX,src->ray[i].hitY,YELLOW);
+        i++;
     }
 }
 
@@ -221,7 +237,9 @@ void minimap(t_my_map *src)
         i++;
     }
     draw_circle(src,src->player_x,src->player_y,4);
-    line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*SIZE),(src->player_y+sin(src->rAngle)*SIZE),YELLOW);
+    // printf("%f\n",src->ray[0].hitX);
+    render_rays(src);
+    // line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*SIZE),(src->player_y+sin(src->rAngle)*SIZE),YELLOW);
     mlx_put_image_to_window(src->mlx, src->win, src->img.img, 0, 0);
 }
 
@@ -243,21 +261,38 @@ int init_value(t_my_map *src)
     src->player_y = (float) src->row_player * SIZE;
     src->casted_rays = src->windows_w;
     src->step_angle = FOV / src->casted_rays;
-    src->ray = malloc(src->casted_rays*sizeof(t_ray));
+    src->ray = malloc(src->casted_rays*sizeof(t_ray)+1);
+    src->screen_dist = (src->windows_w/2) / tan(HALF_FOV);
     src->up_down = 0;
     src->left_right = 0;
-    src->rayD = src->windows_w;
     src->rAngle = PI / 2;
     src->wSpeed = 2;
     src->tSpeed = 2 * (PI / 180);
     return (0);   
 }
+// void clearbuffer(t_my_map *src,uint32_t color)
+// {
+//     int x = 0;
+//     int y = 0;
+    
+//     while(x < src->windows_w)
+//     {
+//         y=0;
+//         while(y < src->windows_h)
+//         {
+//             src->colorBuffer[(src->windows_w*y) + x] = color;
+//             y++;    
+//         }
+//         x++;
+//     } 
+// }
 
 void raycasting(t_my_map *src)
 {
     init_value(src);
     src->img.img = mlx_new_image(src->mlx, src->windows_w, src->windows_h);
 	src->img.addr = mlx_get_data_addr(src->img.img, &src->img.bits_per_pixel, &src->img.line_length,&src->img.endian);
+    // clearbuffer(0xFF000000);
     minimap(src);
     mlx_hook(src->win,KEYPRESS,(1L<<0),&player_press,src);
     mlx_hook(src->win,KEYUP,(1L<<1),&player_up,src);

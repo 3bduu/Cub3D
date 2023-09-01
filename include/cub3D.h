@@ -7,8 +7,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 #include "../libft/libft.h"
-// #include<mlx.h>
-#include "../minilibx-linux/mlx.h"
+#include<mlx.h>
+// #include "../minilibx-linux/mlx.h"
 #include <math.h>
 //# include "./get_next/get_next_line.h"
 
@@ -104,9 +104,10 @@ typedef struct s_get_map
     float   wSpeed; //walk speed
     float   tSpeed; // turn speed
     float   start_angle;
-    int     rayD;   //it's steps to draw one ray
+    float screen_dist;
     // RAY //
     t_ray  *ray;
+    uint32_t *colorBuffer;
     t_data img;
 }   	t_my_map;
 
@@ -148,4 +149,5 @@ int     player_up(int keycode,t_my_map *src);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void    draw_square(t_my_map *src,int start_h,int start_w,int end_h,int end_w,int color);
 void    draw_circle(t_my_map *src,int posX,int posY,int ray);
+int mapHasWallAt(t_my_map *src,float x, float y) ;
 #endif
