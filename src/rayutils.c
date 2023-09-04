@@ -20,19 +20,29 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void draw_square(t_my_map *src,int start_h,int start_w,int end_h,int end_w,int color){
+void draw_square(t_my_map *src,float start_h,float start_w,float end_h,float end_w,int color){
 
-    int x;
+    float x;
 
     while(start_h < end_h)
     {
+        if(start_h > src->windows_w || start_h < 0)
+        {
+            start_h++;
+            continue;
+        }
         x = start_w;
         while(x < end_w)
         {
+            if(x > src->windows_h || x < 0)
+            {
+                x++;
+                continue;
+            }
             my_mlx_pixel_put(&src->img,start_h,x,color);
-            x++;
+            x+=1;
         }
-        start_h++;
+        start_h+=1;
     }
 }
 

@@ -210,13 +210,28 @@ void render_rays(t_my_map *src)
     ray_cast(src);
     while(i < src->casted_rays)
     {
-        draw_square(src,src->ray[i].hitX,,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0xc8c8c8);
-        line(src,src->player_x,src->player_y,src->ray[i].hitX,src->ray[i].hitY,YELLOW);
+        float wallstri = (SIZE / src->ray[i].dist)*src->screen_dist;
+        printf("current%2f | H:%d\n",(src->windows_h/2 - wallstri/2)+wallstri,src->windows_h);
+        draw_square(src,i*1,(src->windows_h/2 - wallstri/2),i+1,(src->windows_h/2 - wallstri/2)+wallstri,YELLOW);
+        // line(src,src->player_x,src->player_y,src->ray[i].hitX,src->ray[i].hitY,YELLOW);
         i++;
     }
 }
+void render_rays2(t_my_map *src)
+{
+    int i;
 
-void minimap(t_my_map *src)
+    i = 0;
+    ray_cast(src);
+    while(i < src->casted_rays)
+    {
+        // float wallstri = (SIZE / src->ray[i].dist)*src->screen_dist;
+        // draw_square(src,i*1,(src->windows_h/2 - wallstri/2),i+1,(src->windows_h/2 - wallstri/2)+wallstri,YELLOW);
+        line(src,src->player_x/4,src->player_y/4,src->ray[i].hitX/4,src->ray[i].hitY/4,YELLOW);
+        i++;
+    }
+}
+void minimapmini(t_my_map *src)
 {
     int i;
     int j;
@@ -228,20 +243,46 @@ void minimap(t_my_map *src)
         while(src->map_2[i][j])
         {
             if(src->map_2[i][j] == '1')
-                draw_square(src,j * SIZE,i * SIZE,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0xc8c8c8);
+                draw_square(src,j * SIZE/4,i * SIZE/4,((j * SIZE/4)+SIZE/4),((i * SIZE/4)+SIZE/4),0xc8c8c8);
             else
-                draw_square(src,j * SIZE,i * SIZE,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0x646464);
+                draw_square(src,j * SIZE/4,i * SIZE/4,((j * SIZE/4)+SIZE/4),((i * SIZE/4)+SIZE/4),0x646464);
             
             j++;
         }
         i++;
     }
-    draw_circle(src,src->player_x,src->player_y,4);
+    draw_circle(src,src->player_x/4,src->player_y/4,4);
+    render_rays2(src);
+    mlx_put_image_to_window(src->mlx, src->win, src->img.img, 0, 0);
+}
+void minimap(t_my_map *src)
+{
+    int i;
+    int j;
+    
+    i = 0;
+    // while(src->map_2[i])
+    // {
+    //     j = 0;
+    //     while(src->map_2[i][j])
+    //     {
+    //         if(src->map_2[i][j] == '1')
+    //             draw_square(src,j * SIZE,i * SIZE,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0xc8c8c8);
+    //         else
+    //             draw_square(src,j * SIZE,i * SIZE,((j * SIZE)+SIZE-1),((i * SIZE)+SIZE-1),0x646464);
+            
+    //         j++;
+    //     }
+    //     i++;
+    // }
+    // draw_circle(src,src->player_x,src->player_y,4);
     // printf("%f\n",src->ray[0].hitX);
     render_rays(src);
+    minimapmini(src);    
     // line(src,src->player_x,src->player_y,(src->player_x+cos(src->rAngle)*SIZE),(src->player_y+sin(src->rAngle)*SIZE),YELLOW);
     mlx_put_image_to_window(src->mlx, src->win, src->img.img, 0, 0);
 }
+
 
 int init_value(t_my_map *src)
 {
@@ -261,7 +302,7 @@ int init_value(t_my_map *src)
     src->player_y = (float) src->row_player * SIZE;
     src->casted_rays = src->windows_w;
     src->step_angle = FOV / src->casted_rays;
-    src->ray = malloc(src->casted_rays*sizeof(t_ray)+1);
+    src->ray = malloc(src->casted_rays*sizeof(t_ray));
     src->screen_dist = (src->windows_w/2) / tan(HALF_FOV);
     src->up_down = 0;
     src->left_right = 0;
