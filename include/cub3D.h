@@ -23,15 +23,21 @@
 #define TEXTURE_EXTENSION ".xpm"
 #define F_COLOR "F"
 #define C_COLOR "C"
-#define GREEN 0x0aad39
-#define RED 0xc70c1c
+
+#define GREEN  0x0aad39
+#define RED    0xc70c1c
 #define YELLOW 0xdbd112
 #define ORANGE 0Xfa8202
+#define BLACK  0x000000
+#define BLUE   0x818589
+#define WHITE  0xFFFFFF
+#define WIDTH 1024
+#define HEIGHT 700
 
-#define SIZE 50
+#define SIZE 40
 #define PI 3.14159265359
 #define TWOPI 6.28318530718
-#define FOV (PI / 3)
+#define FOV (60 * (PI / 180))
 #define HALF_FOV (FOV / 2)
 
 #define KEYPRESS 2
@@ -55,6 +61,27 @@ typedef struct	s_data {
 	int		line_length;
 	int		endian;
 }				t_data;
+
+typedef struct s_tocheck
+{
+    int facingdw;
+    int facingup;
+    int facingright;
+    int facingleft;
+    float x;
+    float y;
+    float deltax;
+    float deltay;
+    int foundh_hit;
+    float horz_hitx;
+    float horz_hity;
+    char     horz_content;
+    int foundv_hit; //found vertical wall hit
+    float vert_hitx;
+    float vert_hity;
+    char    vert_content;
+    
+}   t_tocheck;
 
 typedef struct s_ray
 {
@@ -100,9 +127,9 @@ typedef struct s_get_map
     float     player_y;
     float   up_down;
     float   left_right;
-    float   rAngle; //rotation angle
-    float   wSpeed; //walk speed
-    float   tSpeed; // turn speed
+    float   rangle; //rotation angle
+    float   wspeed; //walk speed
+    float   tspeed; // turn speed
     float   start_angle;
     float screen_dist;
     // RAY //

@@ -26,18 +26,16 @@ void draw_square(t_my_map *src,float start_h,float start_w,float end_h,float end
 
     while(start_h < end_h)
     {
-        if(start_h > src->windows_w || start_h < 0)
-        {
-            start_h++;
-            continue;
-        }
         x = start_w;
         while(x < end_w)
         {
-            if(x > src->windows_h || x < 0)
+            if(x > HEIGHT || x < 0)
             {
                 x++;
+                if(x>=end_w)
+                    break;
                 continue;
+                // break;
             }
             my_mlx_pixel_put(&src->img,start_h,x,color);
             x+=1;

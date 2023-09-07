@@ -18,12 +18,12 @@ void	player_move(t_my_map *player)
     float a;
     float b;
     mlx_destroy_image(player->mlx,player->img.img);
-    player->img.img = mlx_new_image(player->mlx, player->windows_w, player->windows_h);
-    player->rAngle += player->left_right * player->tSpeed;
-    nextMove = player->up_down * player->wSpeed;
+    player->img.img = mlx_new_image(player->mlx, WIDTH, HEIGHT);
+    player->rangle += player->left_right * player->tspeed;
+    nextMove = player->up_down * player->wspeed;
 
-    a = player->player_x + cos(player->rAngle)*nextMove;
-    b = player->player_y + sin(player->rAngle)*nextMove;
+    a = player->player_x + cos(player->rangle)*nextMove;
+    b = player->player_y + sin(player->rangle)*nextMove;
     // printf("%d\n",mapHasWallAt(player,a,b));
     if(!mapHasWallAt(player,a,b))
     {
