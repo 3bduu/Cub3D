@@ -7,8 +7,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 #include "../libft/libft.h"
-// #include<mlx.h>
-#include "../minilibx-linux/mlx.h"
+#include<mlx.h>
+// #include "../minilibx-linux/mlx.h"
 #include <math.h>
 //# include "./get_next/get_next_line.h"
 
@@ -53,6 +53,12 @@ typedef struct s_color
 	int	g;
 	int	b;
 }	t_color;
+// typedef struct s_images
+// {
+// 	void	*img;
+// 	char	*addres;
+	
+// }	t_img;
 
 typedef struct	s_data {
 	void	*img;
@@ -83,6 +89,7 @@ typedef struct s_tocheck
     
 }   t_tocheck;
 
+
 typedef struct s_ray
 {
     float rayalpha;
@@ -95,6 +102,7 @@ typedef struct s_ray
     int facinLeft; // is ray facing left
     int facinRight; // is ray facing right
     int hitContent; // us wall hit Content
+    t_data data[4];
 }           t_ray;
 
 typedef struct s_get_map
@@ -143,6 +151,7 @@ typedef struct s_get_map
 
 ///===> this for parsing 
 //utils
+unsigned int *my_mlx_pixel_get(t_data *data, int x, int y);
 void check_map(t_my_map *src);
 int	is_char_pattern(char c, char *set);
 char *ft_strcpy(char *dest,  char *src);

@@ -6,7 +6,7 @@
 /*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:29:07 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/09/01 10:08:51 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:29:49 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	player_move(t_my_map *player)
 
     a = player->player_x + cos(player->rangle)*nextMove;
     b = player->player_y + sin(player->rangle)*nextMove;
-    // printf("%d\n",mapHasWallAt(player,a,b));
     if(!mapHasWallAt(player,a,b))
     {
         player->player_x = a;

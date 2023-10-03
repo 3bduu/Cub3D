@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rayutils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenlahb < abenlahb@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: abenlahb <abenlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:36:46 by abenlahb          #+#    #+#             */
-/*   Updated: 2023/08/31 15:13:47 by abenlahb         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:48:09 by abenlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ void draw_square(t_my_map *src,float start_h,float start_w,float end_h,float end
                 if(x>=end_w)
                     break;
                 continue;
-                // break;
             }
             my_mlx_pixel_put(&src->img,start_h,x,color);
-            x+=1;
+            x++;
         }
         start_h+=1;
     }
