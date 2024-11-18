@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mballa <mballa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 23:31:00 by mballa            #+#    #+#             */
-/*   Updated: 2023/08/18 19:46:30 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 03:31:32 by mballa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-#include <stdint.h>
-char     **ft_split_str(char *str);
+# include <stdint.h>
+
+char	**ft_split_str(char *str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
